@@ -37,8 +37,6 @@ public class Start{
 		//menus cd = null;
 		panel mb = null;
 		windowslistener	exit = null;
-		
-		//JButton [] a = card.getJButtom();
 
 		windows(){
 			Font font = new Font("宋体",Font.BOLD,80);
@@ -46,14 +44,6 @@ public class Start{
 			jta.setEditable(false);
 			jta.setFont(font);
 			this.add(jta);
-			
-			
-			/*for (int i = 0; i < a.length; i++) {
-				this.add(a[i]);
-			}*/
-
-			/*cd = new menus();
-			this.setJMenuBar(cd);*/
 
 			mb = new panel();
 			this.add(mb);
@@ -63,48 +53,6 @@ public class Start{
 
 			this.repaint();
 		}
-
-		/*class menus extends JMenuBar{
-			JMenu		dan;//菜单
-			JMenuItem	xiang1; //菜单项
-
-			menuslistener		cdjtq;
-
-			menus()
-			{
-				
-				dan = new JMenu("开始");
-				xiang1 = new JMenuItem("结束");
-
-				//this.add(dan);
-				dan.add(xiang1);
-
-				cdjtq = new menuslistener();
-				
-				for (int i = 0; i < a.length; i++) {
-					a[i].addActionListener(cdjtq);
-				}
-			}
-
-			class menuslistener implements ActionListener{
-				public void actionPerformed(ActionEvent e){
-					for (int i = 0; i < a.length; i++) {
-						if (e.getSource() == a[i]){
-							if(con.money >= card.car.get(i).getMoney()){
-								int a = (int)(Math.random()*5+1);
-								con.money -=card.car.get(i).getMoney()/2;
-								if(card.getstyle(i) == 1)
-									plant.addPeashooter(a);
-								else if(card.getstyle(i) ==2)
-									plant.addPea(a);
-								else if(card.getstyle(i) == 3)
-									plant.addThreepeator(a);
-							}
-						}
-					}	
-				}
-			}
-		}*/
 
 		class windowslistener extends WindowAdapter{
 			public void windowClosing(WindowEvent e){
