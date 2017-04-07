@@ -8,29 +8,30 @@ import javax.swing.ImageIcon;
 
 public class PlantUtil {
 	
-	 int Plantx = 200;
-	 int Planty ;
-	 int speed;
+	int Plantx = 200;
+	int Planty ;
+	int speed;
 	private Image path;
 	private int temp=0;
-	 String pa;
+	String pa;
 	private int time1,time2;
-	 int xx,yy; //横着出几个，竖着出几个
-	 Constant con = new Constant();
+	int xx,yy; //横着出几个，竖着出几个
+	Constant con = new Constant();
 	LinkedList<Seed> seed = new LinkedList<Seed>();
 	
 	//图片地址，速度，几行，几列
-	public PlantUtil(String pa,int speed,int xx,int yy,int Planty){
+	public PlantUtil(String pa,int speed,int xx,int yy,int Planty,int Plantx){
 		this.pa = pa;
 		this.speed = speed;
 		this.xx = xx;
 		this.yy = yy;
 		this.Planty = Planty*100+80;
+		this.Plantx = Plantx;
 		fashe();
 	}
 	public void setImage(){
 		if(temp <10){
-			this.path=(new ImageIcon(getClass().getResource(pa+temp+++".png" ))).getImage();
+			this.path=(new ImageIcon(getClass().getResource(pa+(temp++)+".png" ))).getImage();
 		}
 		else{
 			this.path=(new ImageIcon(getClass().getResource(pa+"0.png" ))).getImage();

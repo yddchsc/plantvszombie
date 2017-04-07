@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Plant {
 
 	
-	private LinkedList<PlantUtil>		pea = new LinkedList<PlantUtil>();
+	private LinkedList<PlantUtil> pea = new LinkedList<PlantUtil>();
 	Constant con = new Constant();
 	
 	public void addwhich(int index,int hang){
@@ -19,16 +19,16 @@ public class Plant {
 	}
 	public void addPeashooter(int hang){
 		String path = "/Peashooter/Frame";
-		pea.add(new PlantUtil(path,con.Peashooter_speed,1,1,hang));
+		pea.add(new PlantUtil(path,con.Peashooter_speed,1,1,hang,200));
 	}
 	public void addThreepeator(int hang){
 		String path = "/Threepeater/Frame";
-		pea.add(new PlantUtil(path,con.Threepeator_speed,1,3,hang));
+		pea.add(new PlantUtil(path,con.Threepeator_speed,1,3,hang,200));
 	}
 	
 	public void addPea(int hang){
 		String pa = "/GatlingPea/Frame" ;
-			pea.add(new PlantUtil(pa,con.GatLingPea_speed,3,1,hang));
+		pea.add(new PlantUtil(pa,con.GatLingPea_speed,3,1,hang,200));
 	}
 	public LinkedList<PlantUtil> getpea(){
 		return this.pea;

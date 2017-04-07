@@ -40,7 +40,7 @@ public class Frame
 	class windows extends JFrame
 	{
 		menus		cd		= null;
-		faceboard		mb		= null;
+		panel		mb		= null;
 		windowslistener	exit	= null;
 		keylistener	jp		= null;
 		
@@ -65,7 +65,7 @@ public class Frame
 			cd = new menus();
 			this.setJMenuBar(cd);
 
-			mb = new faceboard();
+			mb = new panel();
 			this.add(mb);
 
 			exit = new windowslistener();
@@ -164,11 +164,11 @@ public class Frame
 			}
 		}
 
-		class faceboard extends JPanel
+		class panel extends JPanel
 		{
 			mouselistener	sb	= null;
 
-			faceboard()
+			panel()
 			{
 				sb = new mouselistener();
 				this.addMouseListener(sb);
@@ -176,23 +176,18 @@ public class Frame
 				
 			}
 
-			class mouselistener extends MouseAdapter implements MouseMotionListener
-			{
-				public void mousePressed(MouseEvent e)
-				{
+			class mouselistener extends MouseAdapter implements MouseMotionListener{
+				public void mousePressed(MouseEvent e){
 					
 				}
 
-				public void mouseDragged(MouseEvent e)
-				{
+				public void mouseDragged(MouseEvent e){
 				}
 
-				public void mouseMoved(MouseEvent e)
-				{
+				public void mouseMoved(MouseEvent e){
 				}
 
-				public void mouseReleased(MouseEvent e)
-				{
+				public void mouseReleased(MouseEvent e){
 				}
 
 				public void mouseClicked(MouseEvent e)//mouse单击
@@ -209,7 +204,7 @@ public class Frame
 					}
 					if (e.getButton() == MouseEvent.BUTTON3)
 					{
-						//TODO:mouse左键单击 
+						//TODO:mouse右键单击 
 						 hang = fu.getjp(mx, my);
 						 live = false;
 					}
