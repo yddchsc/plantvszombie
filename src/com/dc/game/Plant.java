@@ -8,27 +8,27 @@ public class Plant {
 	private LinkedList<PlantUtil> pea = new LinkedList<PlantUtil>();
 	Constant con = new Constant();
 	
-	public void addwhich(int index,int hang){
+	public void addwhich(int index,int hang,int lie){
 		if(index==0){
-			addPeashooter(hang);
+			addPeashooter(hang,lie);
 		}else if(index==1){
-			addPea(hang);
+			addPea(hang,lie);
 		}else if(index==2){
-			addThreepeator(hang);
+			addThreepeator(hang,lie);
 		}
 	}
-	public void addPeashooter(int hang){
+	public void addPeashooter(int hang,int lie){
 		String path = "/Peashooter/Frame";
-		pea.add(new PlantUtil(path,con.Peashooter_speed,1,1,hang,200));
+		pea.add(new PlantUtil(path,con.Peashooter_speed,1,1,hang,lie,true));
 	}
-	public void addThreepeator(int hang){
+	public void addThreepeator(int hang,int lie){
 		String path = "/Threepeater/Frame";
-		pea.add(new PlantUtil(path,con.Threepeator_speed,1,3,hang,200));
+		pea.add(new PlantUtil(path,con.Threepeator_speed,1,3,hang,lie,true));
 	}
 	
-	public void addPea(int hang){
+	public void addPea(int hang,int lie){
 		String pa = "/GatlingPea/Frame" ;
-		pea.add(new PlantUtil(pa,con.GatLingPea_speed,3,1,hang,200));
+		pea.add(new PlantUtil(pa,con.GatLingPea_speed,3,1,hang,lie,true));
 	}
 	public LinkedList<PlantUtil> getpea(){
 		return this.pea;

@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 
 public class PlantUtil {
 	
-	int Plantx = 200;
+	int Plantx ;
 	int Planty ;
 	int speed;
 	private Image path;
@@ -20,14 +20,15 @@ public class PlantUtil {
 	LinkedList<Seed> seed = new LinkedList<Seed>();
 	
 	//图片地址，速度，几行，几列
-	public PlantUtil(String pa,int speed,int xx,int yy,int Planty,int Plantx){
+	public PlantUtil(String pa,int speed,int xx,int yy,int Planty,int Plantx,boolean type){
 		this.pa = pa;
 		this.speed = speed;
 		this.xx = xx;
 		this.yy = yy;
-		this.Planty = Planty*100+80;
+		this.Planty = Planty;
 		this.Plantx = Plantx;
-		fashe();
+		if(type)
+			fashe();
 	}
 	public void setImage(){
 		if(temp <10){
@@ -88,10 +89,14 @@ public class PlantUtil {
 	}
 	
 	//判断僵尸是否与植物碰
-	 public boolean Peapeng(int jsx,int jsy){
-		 if(this.Plantx>jsx && (jsy+80) == this.Planty){
-			 return true;
-		 }
-		 return false;
-	 }
+	public boolean Peapeng(int jsx,int jsy){
+		if(this.Plantx>jsx && (jsy+80) == this.Planty){
+			return true;
+		}
+		return false;
+	}
+	public void move(int y,int x){
+		this.Planty = y;
+		this.Plantx = x;
+	}
 }

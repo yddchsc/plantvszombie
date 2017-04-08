@@ -94,6 +94,6 @@ public class PlayMusic{
         }
         // wait until all data is played, then close the line
         line.drain();
-        line.close();
+        line.start();
     }
 }

@@ -21,6 +21,7 @@ public class Start{
 	settimes	ds1	= null;
 	BombMusic music = null;
 	JTextArea	jta = new JTextArea();
+	JLabel jlpic = new JLabel();
 	Start(){
 		card.addCard();
    		
@@ -37,23 +38,47 @@ public class Start{
 		//menus cd = null;
 		panel mb = null;
 		windowslistener	exit = null;
+		BackgroundImgPanel imgPanel = null;
 
 		windows(){
+			double panelWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();  
+			double panelHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 25 - 25 - 20;//(两个25是内外两个窗口标题栏的高度,20是底部更新进度栏的高度)  
+			imgPanel = new BackgroundImgPanel(panelWidth,panelHeight,"/bg/background1.jpg");  
+			this.add(imgPanel,-1);//参数-1的作用是让这个背景图片面板保持在所有面板的最下面,相当于WEB中的z-index属性  
 			Font font = new Font("宋体",Font.BOLD,80);
 			jta.setBounds(800, 0, 400, 100);
+			 
 			jta.setEditable(false);
 			jta.setFont(font);
-			this.add(jta);
+			this.add(jta,0);
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			//this.setUndecorated(true);//设置隐藏标题栏
 
 			mb = new panel();
-			this.add(mb);
+			//mb.setOpaque(false); //把JPanel设置为透明 这样就不会遮住后面的背景 这样你就能在JPanel随意加组件了
+			this.add(mb,1);
 
 			exit = new windowslistener();
 			this.addWindowListener(exit);
 
 			this.repaint();
 		}
-
+		/** 
+	     * 监听最外层窗口的resize事件,并根据新的窗口大小来调整背景图片的尺寸 
+	     * @param evt 
+	     */  
+	    /*private void formComponentResized(java.awt.event.ComponentEvent evt) {                                        
+	        // TODO add your handling code here:  
+	        try{  
+	            this.remove(imgPanel);  
+	        }catch(Exception e){  
+	        }  
+	        imgPanel = null;  
+	        Dimension newSize = evt.getComponent().getSize();  
+	        imgPanel = new BackgroundImgPanel(newSize.getWidth(),newSize.getHeight()-70,"/bg/background1.jpg");  
+	        this.add(imgPanel,-1);  
+	    }  
+	    */
 		class windowslistener extends WindowAdapter{
 			public void windowClosing(WindowEvent e){
 				ds1.xc.stop();
@@ -62,56 +87,70 @@ public class Start{
 			}
 		}
 		class panel extends JPanel{
-			static final int frame_width = 71;
-			static final int frame_height = 71;
-
-			PicPanel pic = null;
-			private int pic_x;
-			private int pic_y;
+			//JLabel pic = null;
+			Point point=new Point(0,0); //坐标点
 			
-			//前一个位置
-			int begin_x = 0;
-			int begin_y = 0;
-
-			int i = 0;
+			int i = -1;
 			
 			boolean inThePic = false;
 
+			PlantUtil pl = null;
+
 			panel(){
-				pic = new PicPanel("/Peashooter/Frame0.png");
-				setLayout(null);
-				add(pic);
+				//pic = new JLabel(new ImageIcon(getClass().getResource("/Peashooter/Frame0.png")));
+				//pic.setOpaque(false);
+				//point=new Point(0,0);
+				//add(pic,0);
+				//pic.setLocation(point.x,point.y);
 				
-				pic_x = (int)((frame_width - pic.getWidth())/2);
-				pic_y = (int)((frame_height - pic.getHeight())/2);
-				
-				pic.setLocation(pic_x, pic_y);  //定位
 				//鼠标动作 监听器 注册
 				addMouseListener(
 					new MouseAdapter(){
 						public void mousePressed(MouseEvent e){
+							//point=SwingUtilities.convertPoint(pic,e.getPoint(),pic.getParent()); //得到当前坐标点
 							//检测 落点 是否在图片上,只有落点在图片上时 才起作用
+							//i = (point.x-pic.getX())/100;
 							i = e.getX()/100;
-							if(inPicBounds(e.getX(), e.getY()) && 0 <= i && i <= 3 && con.money >= card.car.get(i).getMoney()){
-								begin_x = e.getX();
-								begin_y = e.getY();
+							if(inPicBounds(e.getX(), e.getY()) && 0 <= i && i < 3 && con.money >= card.car.get(i).getMoney()){
 								inThePic = true;
+
+								int a = (int)(e.getY());
+								int b = (int)(e.getX());
+
+								if(card.getstyle(i) == 1){
+									String path = "/Peashooter/Frame";
+									pl = new PlantUtil(path,con.Peashooter_speed,1,1,a,b,false);
+								}
+								else if(card.getstyle(i) ==2){
+									String path = "/Threepeater/Frame";
+									pl = new PlantUtil(path,con.Threepeator_speed,1,3,a,b,false);
+								}
+								else if(card.getstyle(i) == 3){
+									String pa = "/GatlingPea/Frame" ;
+									pl = new PlantUtil(pa,con.GatLingPea_speed,3,1,a,b,false);
+								}
 							}
 							//记录当前坐标
 						}
 						//释放
-						public void mouseReleased(MouseEvent e){
-							inThePic = false;	
+						public void mouseReleased(MouseEvent e){	
 							//repaint();
-							con.money -=card.car.get(i).getMoney()/2;
-							int a = (int)(Math.random()*5+1);
+							if(inThePic){
+								//Point newPoint=SwingUtilities.convertPoint(pic,e.getPoint(),pic.getParent());
 
-							if(card.getstyle(i) == 1)
-								plant.addPeashooter(a);
-							else if(card.getstyle(i) ==2)
-								plant.addPea(a);
-							else if(card.getstyle(i) == 3)
-								plant.addThreepeator(a);
+								con.money -= card.car.get(i).getMoney()/2;
+								int a = (int)(e.getY());
+								int b = (int)(e.getX());
+
+								if(card.getstyle(i) == 1)
+									plant.addPeashooter(a,b);
+								else if(card.getstyle(i) ==2)
+									plant.addPea(a,b);
+								else if(card.getstyle(i) == 3)
+									plant.addThreepeator(a,b);
+							}
+							inThePic = false;
+							pl = null;
 						}
 					}
 				);
@@ -120,14 +159,18 @@ public class Start{
 				addMouseMotionListener(
 					new MouseMotionAdapter(){
 						public void mouseDragged(MouseEvent e){
+							//Point newPoint=SwingUtilities.convertPoint(pic,e.getPoint(),pic.getParent()); //转换坐标系统
+							
+							/*if(inThePic && checkPoint(pic.getX()+(newPoint.x-point.x),pic.getY()+(newPoint.y-point.y))){
+								pic.setLocation(pic.getX()+(newPoint.x-point.x),pic.getY()+(newPoint.y-point.y)); //设置标签图片的新位置
+								//System.out.println(pic.getX()+(newPoint.x-point.x));
+								//System.out.println(point.x-pic.getX());
+								point=newPoint; //更改坐标点
+							}*/
 							if(inThePic && checkPoint(e.getX(),e.getY())){
-								//边界 检查
-								pic_x =pic_x - (begin_x - e.getX());
-								pic_y =pic_y - (begin_y - e.getY());
-								//System.out.println("pic_x=" + pic_x);
-								begin_x = e.getX();
-								begin_y = e.getY();
-								pic.setLocation(pic_x, pic_y);
+								int a = (int)(e.getY());
+								int b = (int)(e.getX());
+								pl.move(a,b);
 							}
 						}
 					}
@@ -153,9 +196,9 @@ public class Start{
 
 			public void paint(Graphics g){
 				
-				Image  tu=(new ImageIcon(getClass().getResource("/bg/background1.jpg"))).getImage();
-				g.drawImage(tu,0,100,null);		
-				tu=(new ImageIcon(getClass().getResource("/SeedBank.png"))).getImage();
+				//Image  tu=(new ImageIcon(getClass().getResource("/bg/background1.jpg"))).getImage();
+				//g.drawImage(tu,0,100,null);		
+				Image tu=(new ImageIcon(getClass().getResource("/SeedBank.png"))).getImage();
 				g.drawImage(tu,0,0,null);
 					
 				for (int i = 0; i < card.car.size(); i++) {
@@ -166,27 +209,9 @@ public class Start{
 				} 
 				for (int j = 0; j < plant.getpea().size(); j++) {
 					plant.getpea().get(j).draw(g);
-				} 					
-			}
-		}
-		//图片面板,只是用来放置图片
-		class PicPanel extends JPanel{
-			int p_width = 0;
-			int p_height = 0;
-			Image im = null;
-		
-			int i = 0; //temp var
-			public PicPanel(String picName){
-				ImageIcon imageIcon = new ImageIcon(getClass().getResource(picName));
-				im = imageIcon.getImage();
-			
-				p_width = imageIcon.getIconWidth();
-				p_height = imageIcon.getIconHeight();
-				setBounds(0,0,p_width, p_height);
-    		}
-    
-			public void paint(Graphics g){
-				g.drawImage(im,0,0,p_width,p_height,null);
+				}
+				if(pl != null)
+					pl.draw(g);					
 			}
 		}
 	}
@@ -247,7 +272,7 @@ public class Start{
 					if (this == ds1){
 					
 						if(index !=card.car.size()  && hang !=0){
-							plant.addwhich(index,hang);
+							plant.addwhich(index,hang,1);
 							Constant.money -= card.car.get(index).money;
 							index=card.car.size();
 							hang =0;
