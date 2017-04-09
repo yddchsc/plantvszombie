@@ -87,7 +87,6 @@ public class Start{
 			}
 		}
 		class panel extends JPanel{
-			//JLabel pic = null;
 			Point point=new Point(0,0); //坐标点
 			
 			int i = -1;
@@ -97,17 +96,11 @@ public class Start{
 			PlantUtil pl = null;
 
 			panel(){
-				//pic = new JLabel(new ImageIcon(getClass().getResource("/Peashooter/Frame0.png")));
-				//pic.setOpaque(false);
-				//point=new Point(0,0);
-				//add(pic,0);
-				//pic.setLocation(point.x,point.y);
 				
 				//鼠标动作 监听器 注册
 				addMouseListener(
 					new MouseAdapter(){
 						public void mousePressed(MouseEvent e){
-							//point=SwingUtilities.convertPoint(pic,e.getPoint(),pic.getParent()); //得到当前坐标点
 							//检测 落点 是否在图片上,只有落点在图片上时 才起作用
 							//i = (point.x-pic.getX())/100;
 							i = e.getX()/100;
@@ -122,11 +115,11 @@ public class Start{
 									pl = new PlantUtil(path,con.Peashooter_speed,1,1,a,b,false);
 								}
 								else if(card.getstyle(i) ==2){
-									String path = "/Threepeater/Frame";
+									String path = "/GatlingPea/Frame";
 									pl = new PlantUtil(path,con.Threepeator_speed,1,3,a,b,false);
 								}
 								else if(card.getstyle(i) == 3){
-									String pa = "/GatlingPea/Frame" ;
+									String pa = "/Threepeater/Frame";
 									pl = new PlantUtil(pa,con.GatLingPea_speed,3,1,a,b,false);
 								}
 							}
@@ -136,8 +129,6 @@ public class Start{
 						public void mouseReleased(MouseEvent e){	
 							//repaint();
 							if(inThePic){
-								//Point newPoint=SwingUtilities.convertPoint(pic,e.getPoint(),pic.getParent());
-
 								con.money -= card.car.get(i).getMoney()/2;
 								int a = (int)(e.getY());
 								int b = (int)(e.getX());
@@ -159,14 +150,6 @@ public class Start{
 				addMouseMotionListener(
 					new MouseMotionAdapter(){
 						public void mouseDragged(MouseEvent e){
-							//Point newPoint=SwingUtilities.convertPoint(pic,e.getPoint(),pic.getParent()); //转换坐标系统
-							
-							/*if(inThePic && checkPoint(pic.getX()+(newPoint.x-point.x),pic.getY()+(newPoint.y-point.y))){
-								pic.setLocation(pic.getX()+(newPoint.x-point.x),pic.getY()+(newPoint.y-point.y)); //设置标签图片的新位置
-								//System.out.println(pic.getX()+(newPoint.x-point.x));
-								//System.out.println(point.x-pic.getX());
-								point=newPoint; //更改坐标点
-							}*/
 							if(inThePic && checkPoint(e.getX(),e.getY())){
 								int a = (int)(e.getY());
 								int b = (int)(e.getX());
@@ -210,8 +193,10 @@ public class Start{
 				for (int j = 0; j < plant.getpea().size(); j++) {
 					plant.getpea().get(j).draw(g);
 				}
-				if(pl != null)
-					pl.draw(g);					
+				if(pl != null){
+					pl.setImage();
+					pl.draw(g);	
+				}
 			}
 		}
 	}
@@ -270,13 +255,6 @@ public class Start{
 					xc.sleep(jianGe);
 
 					if (this == ds1){
-					
-						if(index !=card.car.size()  && hang !=0){
-							plant.addwhich(index,hang,1);
-							Constant.money -= card.car.get(index).money;
-							index=card.car.size();
-							hang =0;
-						}
 						fu.setdeffit(start, zombie);
 						jta.setText("金币:"+con.money);
 						card.setCardImages();

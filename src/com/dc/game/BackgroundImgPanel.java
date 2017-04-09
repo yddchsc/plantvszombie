@@ -31,8 +31,8 @@ public class BackgroundImgPanel extends JPanel{
   
     @Override  
     public void paintComponent(Graphics gs) {  
-        //Graphics2D g = (Graphics2D) gs;  
-        //super.paintComponent(g);  
+        Graphics2D g = (Graphics2D) gs;  
+        super.paintComponent(g);  
         //画背景图片 
         Image image = (new ImageIcon(getClass().getResource(imgPath))).getImage();
         gs.drawImage(image, 0, 0,width,height, this);
